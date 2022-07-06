@@ -245,8 +245,8 @@
 <script setup lang="ts">
 import { ref } from "@vue/reactivity";
 import { computed, watch } from "@vue/runtime-core";
-import { useCareCenterStore } from "../stores/careCenter";
-import { useRoomStore } from "../stores/room";
+import { useCareCenterStore } from "../../stores/careCenter";
+import { useRoomStore } from "../../stores/room";
 
 let isCreateBed = ref(false);
 let isSelectedBed = ref(false);

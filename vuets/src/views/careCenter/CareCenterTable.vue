@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import { computed } from "@vue/runtime-core";
-import { useCareCenterStore } from "../stores/careCenter";
+import { useCareCenterStore } from "../../stores/careCenter";
 
 const careCenterStore = useCareCenterStore();
 

@@ -45,7 +45,7 @@
 
 <script setup lang="ts">
 import { computed } from "@vue/runtime-core";
-import { useRoomStore } from "../stores/room";
+import { useRoomStore } from "../../stores/room";
 
 const roomStore = useRoomStore();
 
