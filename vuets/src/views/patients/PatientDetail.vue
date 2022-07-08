@@ -30,12 +30,20 @@
         Bed type:
         <span class="text-sm font-normal">{{ patient[0].beds.bed_type }}</span>
       </div>
+
       <div class="text-sm font-bold text-left pl-28 pt-3">
         Care Center:
         <span class="text-sm font-normal">{{
           patient[0].beds.rooms.care_centers.cc_name
         }}</span>
       </div>
+
+      <div class="text-xl font-bold text-left pl-20 pt-4">Items:</div>
+      <ul class="list-disc" v-for="item in patient[0].items" :key="item.id">
+        <li class="text-sm font-bold text-left ml-28 pt-3">
+          {{ item.item_type }}
+        </li>
+      </ul>
       <div class="text-4xl font-bold text-left px-5 mb-6 mt-7">Physician</div>
       <div class="text-xl font-bold text-left pl-20 pt-3">
         Physician ID:

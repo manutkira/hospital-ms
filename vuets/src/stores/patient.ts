@@ -25,6 +25,9 @@ export const usePatientStore = defineStore({
         },
         savePatient(data: object) {
             axios.post("http://localhost:8000/api/patient", data);
+        },
+        assignItem(data: object) {
+            axios.post("http://localhost:8000/api/assign-item", data);
         }
     },
     getters: {

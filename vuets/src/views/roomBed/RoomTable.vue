@@ -5,7 +5,7 @@
       <table>
         <thead>
           <tr>
-            <th>Room ID</th>
+            <th>Room Number</th>
             <th>Care Center</th>
             <th>CareCenter ID</th>
             <th>Employee</th>
@@ -15,7 +15,7 @@
         </thead>
         <tbody>
           <tr v-for="room in rooms" :key="room.id">
-            <td class="uppercase">{{ room.id }}</td>
+            <td class="uppercase">{{ room.room_number }}</td>
             <td class="uppercase">{{ room.care_centers.cc_name }}</td>
             <td class="">
               {{ room.care_center_id }}

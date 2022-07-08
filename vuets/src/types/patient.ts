@@ -6,7 +6,15 @@ type Patient = {
     room_id: number;
     physician_id: number;
     physicians: Physician;
+    items: Item[];
     beds: Bed;
+};
+
+type Item = {
+    id: number;
+    description: string;
+    unit_cost: string;
+    item_type: string;
 };
 
 type Physician = {

@@ -19,5 +19,9 @@ class Patient extends Model
         return $this->belongsTo(Physician::class, 'physician_id');
     }
 
+    public function items(){
+        return $this->belongsToMany(Item::class);
+    }
+
     
 }

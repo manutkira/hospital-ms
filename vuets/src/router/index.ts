@@ -13,6 +13,13 @@ import CreateItemVue from "../views/items/CreateItem.vue";
 import PatientTableVue from "../views/patients/PatientTable.vue";
 import CreatePatientVue from "../views/patients/CreatePatient.vue";
 import PatientDetailVue from "../views/patients/PatientDetail.vue";
+import AssignItemToPatientVue from "../views/patients/AssignItemToPatient.vue";
+import TreatmentVue from "../views/treatment/Treatment.vue";
+import CreateTreatmentVue from "../views/treatment/CreateTreatment.vue";
+import TreatVue from "../views/treatment/Treat.vue";
+import CreateTreatVue from "../views/treatment/CreateTreat.vue";
+import LoginVue from "../views/Login.vue";
+import Register from "../views/Register.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -85,8 +92,43 @@ const router = createRouter({
                     path: "/patient-detail/:id",
                     component: PatientDetailVue,
                     name: "PatientDetailVue"
+                },
+                {
+                    path: "/assign-item",
+                    component: AssignItemToPatientVue,
+                    name: "AssignItemToPatientVue"
+                },
+                {
+                    path: "/treatment",
+                    component: TreatmentVue,
+                    name: "TreatmentVue"
+                },
+                {
+                    path: "/treatment-create",
+                    component: CreateTreatmentVue,
+                    name: "CreateTreatmentVue"
+                },
+                {
+                    path: "/treat",
+                    component: TreatVue,
+                    name: "TreatVue"
+                },
+                {
+                    path: "/treat-create",
+                    component: CreateTreatVue,
+                    name: "CreateTreatVue"
                 }
             ]
+        },
+        {
+            path: "/login",
+            component: LoginVue,
+            name: "LoginVue"
+        },
+        {
+            path: "/register",
+            component: Register,
+            name: "Register"
         }
     ]
 });

@@ -9,7 +9,7 @@ class Room extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['care_center_id', 'number_of_bed',];
+    protected $fillable = ['care_center_id', 'number_of_bed', 'room_number' ,'name'];
 
     public function careCenters(){
         return $this->belongsTo(CareCenter::class, 'care_center_id');

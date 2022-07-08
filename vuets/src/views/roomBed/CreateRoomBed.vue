@@ -93,7 +93,7 @@
               v-model="selectedRoom"
             >
               <option v-for="(room, index) in rooms" :key="index" :value="room">
-                {{ room.id }}
+                {{ room.name }}
               </option>
             </select>
           </div>
@@ -209,6 +209,36 @@
             />
           </div>
           <!-- Number of bed -->
+
+          <!-- Room Number -->
+          <div v-if="isCreateBed === false">
+            <label
+              for="price"
+              class="block text-sm font-medium text-gray-700 text-left"
+            >
+              Number of Bed
+            </label>
+            <input
+              type="text"
+              name="price"
+              id="price"
+              v-model="room.room_number"
+              autocomplete="survey_title"
+              class="
+                mt-1
+                input
+                bg-white
+                focus:ring-indigo-500 focus:border-indigo-500
+                block
+                w-full
+                shadow-sm
+                sm:text-sm
+                border-gray-300
+                rounded-md
+              "
+            />
+          </div>
+          <!-- Room Number -->
         </div>
         <!-- save -->
         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
@@ -254,6 +284,7 @@ let isSelectedBed = ref(false);
 type Room = {
   care_center_id: number;
   number_of_bed: number;
+  room_number: string;
 };
 
 type Bed = {

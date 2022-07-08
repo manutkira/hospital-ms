@@ -4,6 +4,8 @@ type Room = {
     id: number;
     care_center_id: number;
     number_of_bed: number;
+    name: string;
+    room_number: string;
     beds: Bed[];
     care_centers: careCenter;
 };
