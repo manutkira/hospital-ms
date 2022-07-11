@@ -109,6 +109,7 @@
             >
 
             <router-link
+              @click.prevent="logout"
               to="/"
               class="
                 block
@@ -127,6 +128,9 @@
 </template>
 
 <script setup lang="ts">
+import { defineComponent } from "vue";
+import { useUserStore } from "../stores/user";
+
 import { MenuButton, MenuItem, MenuItems, Menu } from "@headlessui/vue";
 import { ref } from "vue";
 import { useSidebar } from "../hooks/useSidebar";
@@ -135,14 +139,17 @@ import { useRouter } from "vue-router";
 
 const dropdownOpen = ref(false);
 const { isOpen } = useSidebar();
+
+const userStore = useUserStore();
+const router = useRouter();
+
+function logout() {
+  userStore.logout().then(() => {
+    router.push({ name: "EmployeeTableVue" });
+  });
+}
 </script>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-export default defineComponent({
-  name: "Header",
-});
-</script>
 
 <style lang="scss" scoped>
 // Navigation Variables

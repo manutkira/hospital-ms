@@ -1,38 +1,60 @@
 import axios from "axios";
 import { defineStore } from "pinia";
+import axiosClient from "../axios";
 import Patient from "../types/patient";
 
-const patientType: Patient[] = [];
 const CurrentpatientType: Patient[] = [];
 
 export const usePatientStore = defineStore({
     id: "patient",
     state: () => {
         return {
-            patient: patientType
+            patient: [] as Patient[],
+            loading: false as boolean
         };
     },
     actions: {
         fetchPatient() {
-            axios.get("http://localhost:8000/api/patient").then(res => {
+            axiosClient.get("/patient").then(res => {
                 this.patient = res.data;
             });
         },
         fetchOnePatient(id: string) {
-            axios.get(`http://localhost:8000/api/patient/${id}`).then(res => {
+            axiosClient.get(`/patient/${id}`).then(res => {
                 this.patient = res.data;
             });
         },
-        savePatient(data: object) {
-            axios.post("http://localhost:8000/api/patient", data);
+        async savePatient(data: object) {
+            this.loading = true;
+            await axiosClient
+                .post("/patient", data)
+                .then(res => {
+                    this.loading = false;
+                    return res;
+                })
+                .catch(err => {
+                    this.loading = false;
+                });
         },
-        assignItem(data: object) {
-            axios.post("http://localhost:8000/api/assign-item", data);
+        async assignItem(data: object) {
+            this.loading = true;
+            await axiosClient
+                .post("/assign-item", data)
+                .then(res => {
+                    this.loading = false;
+                    return res;
+                })
+                .catch(err => {
+                    this.loading = false;
+                });
         }
     },
     getters: {
         getPatient(state) {
             return state.patient;
+        },
+        getLoading(state) {
+            return state.loading;
         }
     }
 });

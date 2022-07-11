@@ -1,29 +1,41 @@
 import axios from "axios";
 import { defineStore } from "pinia";
+import axiosClient from "../axios";
 import Treatment from "../types/treatment";
-
-const treatmentType: Treatment[] = [];
 
 export const useTreatmentStore = defineStore({
     id: "treatment",
     state: () => {
         return {
-            treatment: treatmentType
+            treatment: [] as Treatment[],
+            loading: false as boolean
         };
     },
     actions: {
         fetchTreatment() {
-            axios.get("http://localhost:8000/api/treatment").then(res => {
+            axiosClient.get("/treatment").then(res => {
                 this.treatment = res.data;
             });
         },
-        saveTreatment(data: object) {
-            axios.post("http://localhost:8000/api/treatment", data);
+        async saveTreatment(data: object) {
+            this.loading = true;
+            await axiosClient
+                .post("/treatment", data)
+                .then(res => {
+                    this.loading = false;
+                    return res;
+                })
+                .catch(err => {
+                    this.loading = false;
+                });
         }
     },
     getters: {
         getTreatment(state) {
             return state.treatment;
+        },
+        getLoading(state) {
+            return state.loading;
         }
     }
 });

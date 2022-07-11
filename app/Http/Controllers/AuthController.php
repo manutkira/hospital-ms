@@ -51,22 +51,22 @@ class AuthController extends Controller
                 'error' => 'The provided credentials are not correct'
             ], 422);
 
-              /** @var \App\Models\User */
-        $user = Auth::user();
-        $token = $user->createToken('main')->plainTextToken;
-
-        return response([
-            'user'=> $user,
-            'token'=> $token,
-        ]);
         }
+        /** @var \App\Models\User */
+  $user = Auth::user();
+  $token = $user->createToken('main')->plainTextToken;
+
+  return response([
+      'user'=> $user,
+      'token'=> $token,
+  ]);
     }
 
     public function logout(){
         /** @var User $user */
         $user = Auth::user();
 
-        $user->tokens->delete();
+        $user->tokens()->delete();
         return response([
             'success'=> true,
         ]);

@@ -1,6 +1,10 @@
 <template>
   <div>
     <h1 class="text-left text-4xl mb-5 font-bold">Create Patient</h1>
+    <!-- <LoadingModal>
+      <h2 class="text-xl font-bold py-4">Please wait!</h2>
+      <p class="text-sm text-gray-500 px-8">Creating New Patient...</p>
+    </LoadingModal> -->
     <form action="" enctype="multipart/form-data" method="POST">
       <div class="shadow sm:rounded-md sm:overflow-hidden">
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
@@ -214,6 +218,7 @@
 import { computed, ref } from "@vue/runtime-core";
 import { useCareCenterStore } from "../../stores/careCenter";
 import { useRoomStore } from "../../stores/room";
+import LoadingModal from "../../components/LoadingModal.vue";
 
 type Patient = {
   first_name: string;

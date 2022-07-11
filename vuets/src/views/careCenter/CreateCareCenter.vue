@@ -1,6 +1,11 @@
 <template>
   <div>
     <h1 class="text-left text-4xl mb-5 font-bold">Create Care Center</h1>
+    <pre>{{ loading }}</pre>
+    <LoadingModal v-if="loading">
+      <h2 class="text-xl font-bold py-4">Please wait!</h2>
+      <p class="text-sm text-gray-500 px-8">Creating New Care Center...</p>
+    </LoadingModal>
     <form action="" enctype="multipart/form-data" method="POST">
       <div class="shadow sm:rounded-md sm:overflow-hidden">
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
@@ -35,7 +40,7 @@
 
           <!-- employe name -->
           <div class="mt-3 col-span-3 text-left">
-            <label for="category_name"> Select Category </label>
+            <label for="category_name"> Select Employee </label>
             <select
               name="category_name"
               id="category_name"
@@ -48,6 +53,7 @@
                 border border-gray-300
                 bg-white
                 rounded-md
+                capitalize
                 shadow-sm
                 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500
                 sm:text-sm
@@ -56,11 +62,12 @@
               v-model="careCenter.employee_id"
             >
               <option
+                class=""
                 v-for="(employee, index) in employees"
                 :key="index"
                 :value="employee.id"
               >
-                {{ employee.first_name }}
+                {{ employee.first_name }} {{ employee.last_name }}
               </option>
             </select>
           </div>
@@ -133,6 +140,8 @@ import { ref } from "@vue/reactivity";
 import { computed, watch } from "@vue/runtime-core";
 import { useCareCenterStore } from "../../stores/careCenter";
 import { useEmployeeStore } from "../../stores/employee";
+import LoadingModal from "../../components/LoadingModal.vue";
+import { useRouter } from "vue-router";
 
 type careCenter = {
   cc_name: string;
@@ -148,10 +157,12 @@ type employeeType = {
 
 const employeeStore = useEmployeeStore();
 const careCenterStore = useCareCenterStore();
+const router = useRouter();
 
 let careCenter = ref({} as careCenter);
 
 let employees = computed(() => employeeStore.getEmployee);
+const loading = computed(() => careCenterStore.getLoading);
 
 watch(
   () => employeeStore.getEmployee,
@@ -165,7 +176,9 @@ function onChange(event: any) {
 }
 
 function saveCareCenter() {
-  careCenterStore.saveCareCenter(careCenter.value);
+  careCenterStore.saveCareCenter(careCenter.value).then(() => {
+    router.push({ name: "CareCenterTableVue" });
+  });
 }
 
 employeeStore.fetchEmployee();

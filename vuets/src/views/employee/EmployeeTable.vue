@@ -37,6 +37,7 @@
 <script setup lang="ts">
 import { computed } from "@vue/runtime-core";
 import { useEmployeeStore } from "../../stores/employee";
+import { useUserStore } from "../../stores/user";
 
 const employeeStore = useEmployeeStore();
 

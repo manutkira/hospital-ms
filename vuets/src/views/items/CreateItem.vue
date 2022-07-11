@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h1 class="text-left text-4xl mb-5 font-bold">Create New Physician</h1>
+    <h1 class="text-left text-4xl mb-5 font-bold">Create New Item</h1>
+    <LoadingModal v-if="loading">
+      <h2 class="text-xl font-bold py-4">Please wait!</h2>
+      <p class="text-sm text-gray-500 px-8">Creating New Item...</p>
+    </LoadingModal>
     <form action="" enctype="multipart/form-data" method="POST">
       <div class="shadow sm:rounded-md sm:overflow-hidden">
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
@@ -131,6 +135,9 @@
 <script setup lang="ts">
 import { ref } from "@vue/reactivity";
 import { useItemStore } from "../../stores/item";
+import LoadingModal from "../../components/LoadingModal.vue";
+import { computed } from "@vue/runtime-core";
+import { useRouter } from "vue-router";
 
 type Item = {
   description: string;
@@ -141,9 +148,14 @@ type Item = {
 let item = ref({} as Item);
 
 const itemStore = useItemStore();
+const router = useRouter();
+
+const loading = computed(() => itemStore.getLoading);
 
 function saveItem() {
-  itemStore.saveItem(item.value);
+  itemStore.saveItem(item.value).then(() => {
+    router.push({ name: "ItemTableVue" });
+  });
 }
 </script>
 

@@ -20,6 +20,7 @@ import TreatVue from "../views/treatment/Treat.vue";
 import CreateTreatVue from "../views/treatment/CreateTreat.vue";
 import LoginVue from "../views/Login.vue";
 import Register from "../views/Register.vue";
+import { useUserStore } from "../stores/user";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,7 @@ const router = createRouter({
         {
             path: "/",
             component: Dashboard,
+            meta: { requiresAuth: true },
             children: [
                 {
                     path: "/employee",
@@ -123,14 +125,27 @@ const router = createRouter({
         {
             path: "/login",
             component: LoginVue,
-            name: "LoginVue"
+            name: "LoginVue",
+            meta: { isGuest: true }
         },
         {
             path: "/register",
             component: Register,
-            name: "Register"
+            name: "Register",
+            meta: { isGuest: true }
         }
     ]
+});
+
+router.beforeEach((to, from, next) => {
+    const userStore = useUserStore();
+    if (to.meta.requiresAuth && !userStore.user.token) {
+        next({ name: "LoginVue" });
+    } else if (userStore.user.token && to.meta.isGuest) {
+        next({ name: "EmployeeTableVue" });
+    } else {
+        next();
+    }
 });
 
 export default router;

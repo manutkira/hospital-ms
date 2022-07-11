@@ -30,18 +30,19 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    Route::resource('/employee', EmployeeController::class);
+    Route::resource('/care-center', CareCenterController::class);
+    Route::resource('/employ', EmploysController::class);
+    Route::resource('/room', RoomController::class);
+    Route::resource('/bed', BedController::class);
+    Route::resource('/physician', PhysicianController::class);
+    Route::resource('/patient', PatientController::class);
+    Route::resource('/item', ItemController::class);
+    Route::resource('/treatment', TreatmentController::class);
+    Route::resource('/treat', TreatController::class);
+    Route::post('/assign-item', [PatientController::class ,'assignItem']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
 
-Route::resource('/employee', EmployeeController::class);
-Route::resource('/care-center', CareCenterController::class);
-Route::resource('/employ', EmploysController::class);
-Route::resource('/room', RoomController::class);
-Route::resource('/bed', BedController::class);
-Route::resource('/physician', PhysicianController::class);
-Route::resource('/patient', PatientController::class);
-Route::resource('/item', ItemController::class);
-Route::resource('/treatment', TreatmentController::class);
-Route::resource('/treat', TreatController::class);
-Route::post('/assign-item', [PatientController::class ,'assignItem']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

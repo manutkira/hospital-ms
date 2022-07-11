@@ -1,33 +1,41 @@
 import axios from "axios";
 import { defineStore } from "pinia";
+import axiosClient from "../axios";
 import careCenter from "../types/careCenter";
-
-const careCenterType: careCenter[] = [];
 
 export const useCareCenterStore = defineStore({
     id: "careCenter",
     state: () => {
         return {
-            careCenter: careCenterType
+            careCenter: [] as careCenter[],
+            loading: false as boolean
         };
     },
     actions: {
         fetchCareCenter() {
-            axios.get("http://localhost:8000/api/care-center").then(res => {
+            axiosClient.get("/care-center").then(res => {
                 this.careCenter = res.data;
             });
         },
-        saveCareCenter(data: object) {
-            axios
-                .post("http://localhost:8000/api/care-center", data)
+        async saveCareCenter(data: object) {
+            this.loading = true;
+            await axiosClient
+                .post("/care-center", data)
                 .then(res => {
+                    this.loading = false;
                     return res;
+                })
+                .catch(err => {
+                    this.loading = false;
                 });
         }
     },
     getters: {
         getCareCenter(state) {
             return state.careCenter;
+        },
+        getLoading(state) {
+            return state.loading;
         }
     }
 });

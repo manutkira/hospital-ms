@@ -1,28 +1,41 @@
 import axios from "axios";
 import { defineStore } from "pinia";
+import axiosClient from "../axios";
 import Physician from "../types/physician";
 
-const physicianType: Physician[] = [];
 export const usePhysicianStore = defineStore({
     id: "physician",
     state: () => {
         return {
-            physician: physicianType
+            physician: [] as Physician[],
+            loading: false as boolean
         };
     },
     actions: {
         fetchPhysician() {
-            axios.get("http://localhost:8000/api/physician").then(res => {
+            axiosClient.get("/physician").then(res => {
                 this.physician = res.data;
             });
         },
-        savePhysician(data: object) {
-            axios.post("http://localhost:8000/api/physician", data);
+        async savePhysician(data: object) {
+            this.loading = true;
+            await axiosClient
+                .post("/physician", data)
+                .then(res => {
+                    this.loading = false;
+                    return res;
+                })
+                .catch(err => {
+                    this.loading = false;
+                });
         }
     },
     getters: {
         getPhysician(state) {
             return state.physician;
+        },
+        getLoading(state) {
+            return state.loading;
         }
     }
 });

@@ -1,25 +1,28 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import type Employee from "../types/employee";
+import axiosClient from "../axios";
 
 
-const employeeType: Employee[] = [];
 
 export const useEmployeeStore = defineStore({
     id: "employee",
     state: () => {
         return {
-            employees: employeeType
+            employees: [] as Employee[],
+            loading: false as boolean,
         };
     },
     actions: {
         fetchEmployee() {
-            axios.get("http://localhost:8000/api/employee").then(res => {
+            axiosClient.get("/employee").then(res => {
                 this.employees = res.data;
             });
         },
-        saveEmployee(data: object){
-            axios.post('http://localhost:8000/api/employee', data).then(res => {
+       async saveEmployee(data: object){
+            this.loading = true;
+            await  axiosClient.post('/employee', data).then(res => {
+                this.loading = false;
                 return res;
             })
         }
@@ -27,6 +30,9 @@ export const useEmployeeStore = defineStore({
     getters: {
         getEmployee(state) {
             return state.employees;
+        },
+        getLoading(state){
+            return state.loading;
         }
     }
 });

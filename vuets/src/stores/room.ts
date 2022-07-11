@@ -1,36 +1,54 @@
 import axios from "axios";
 import { defineStore } from "pinia";
+import axiosClient from "../axios";
 import Room from "../types/room";
-
-const roomType: Room[] = [];
 
 export const useRoomStore = defineStore({
     id: "room",
     state: () => {
         return {
-            room: roomType
+            room: [] as Room[],
+            loading: false as boolean
         };
     },
     actions: {
         fetchRoom() {
-            axios.get("http://localhost:8000/api/room").then(res => {
+            axiosClient.get("/room").then(res => {
                 this.room = res.data;
             });
         },
-        saveRoom(data: object) {
-            axios.post("http://localhost:8000/api/room", data).then(res => {
-                return res;
-            });
+        async saveRoom(data: object) {
+            this.loading = true;
+            await axiosClient
+                .post("/room", data)
+                .then(res => {
+                    this.loading = false;
+                    return res;
+                })
+                .catch(err => {
+                    this.loading = false;
+                });
         },
-        saveBed(data: object) {
-            axios.post("http://localhost:8000/api/bed", data).then(res => {
-                return res;
-            });
+        async saveBed(data: object) {
+            this.loading = true;
+
+            await axiosClient
+                .post("/bed", data)
+                .then(res => {
+                    this.loading = false;
+                    return res;
+                })
+                .catch(err => {
+                    this.loading = false;
+                });
         }
     },
     getters: {
         getRoom(state) {
             return state.room;
+        },
+        getLoading(state) {
+            return state.loading;
         }
     }
 });

@@ -1,6 +1,14 @@
 <template>
   <div>
     <h1 class="text-left text-4xl mb-5 font-bold">Create Room</h1>
+    <LoadingModal v-if="loading">
+      <h2 class="text-xl font-bold py-4">Please wait!</h2>
+      <p class="text-sm text-gray-500 px-8">
+        Creating New <span v-if="isCreateBed"> Bed...</span>
+
+        <span v-if="isCreateBed === false">Room...</span>
+      </p>
+    </LoadingModal>
     <form action="" enctype="multipart/form-data" method="POST">
       <div class="shadow sm:rounded-md sm:overflow-hidden">
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
@@ -216,7 +224,7 @@
               for="price"
               class="block text-sm font-medium text-gray-700 text-left"
             >
-              Number of Bed
+              Room Number
             </label>
             <input
               type="text"
@@ -277,6 +285,8 @@ import { ref } from "@vue/reactivity";
 import { computed, watch } from "@vue/runtime-core";
 import { useCareCenterStore } from "../../stores/careCenter";
 import { useRoomStore } from "../../stores/room";
+import LoadingModal from "../../components/LoadingModal.vue";
+import { useRouter } from "vue-router";
 
 let isCreateBed = ref(false);
 let isSelectedBed = ref(false);
@@ -302,6 +312,7 @@ type SelectedRoom = {
 
 const careCenterStore = useCareCenterStore();
 const roomStore = useRoomStore();
+const router = useRouter();
 
 const createOption = [
   {
@@ -341,14 +352,20 @@ function onChange(event: any) {
 
 function saveRoom() {
   if (isCreateBed.value === true) {
-    roomStore.saveBed({
-      room_id: selectedRoom.value.id,
-      care_center_id: selectedRoom.value.care_center_id,
-      bed_type: bedtype.value,
-    });
+    roomStore
+      .saveBed({
+        room_id: selectedRoom.value.id,
+        care_center_id: selectedRoom.value.care_center_id,
+        bed_type: bedtype.value,
+      })
+      .then(() => {
+        router.push({ name: "RoomTableVue" });
+      });
   }
   if (isCreateBed.value === false) {
-    roomStore.saveRoom(room.value);
+    roomStore.saveRoom(room.value).then(() => {
+      router.push({ name: "RoomTableVue" });
+    });
   }
 }
 
@@ -359,6 +376,7 @@ const filteredCareCenters = computed(() =>
   )
 );
 const rooms = computed(() => roomStore.getRoom);
+const loading = computed(() => roomStore.getLoading);
 
 roomStore.fetchRoom();
 careCenterStore.fetchCareCenter();
