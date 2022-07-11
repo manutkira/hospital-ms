@@ -1,6 +1,8 @@
 <template>
   <div>
     <h1 class="text-left text-4xl mb-5 font-bold">Create Patient</h1>
+    <!-- <pre>{{ physician }}</pre> -->
+    <pre>{{ bedId }}</pre>
     <!-- <LoadingModal>
       <h2 class="text-xl font-bold py-4">Please wait!</h2>
       <p class="text-sm text-gray-500 px-8">Creating New Patient...</p>
@@ -70,6 +72,39 @@
           </div>
           <!-- last name -->
 
+          <!-- select physician -->
+          <div class="mt-3 col-span-3 text-left">
+            <label for="category_name"> Select Physician </label>
+            <select
+              placeholder="Select Room ID"
+              name="category_name"
+              id="category_name"
+              class="
+                mt-1
+                block
+                w-full
+                py-2
+                px-3
+                border border-gray-300
+                bg-white
+                rounded-md
+                shadow-sm
+                focus:outline-none focus:ring-indigo-500 focus:border-indigo-500
+                sm:text-sm
+              "
+              v-model="physician"
+            >
+              <option
+                v-for="(physician, index) in physicians"
+                :key="index"
+                :value="physician"
+              >
+                {{ physician.first_name }} {{ physician.last_name }}
+              </option>
+            </select>
+          </div>
+          <!-- select physician -->
+
           <!-- select room -->
           <div class="mt-3 col-span-3 text-left">
             <label for="category_name"> Select Room </label>
@@ -90,11 +125,10 @@
                 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500
                 sm:text-sm
               "
-              @change="onChange($event)"
               v-model="selectedRoom"
             >
               <option v-for="(room, index) in rooms" :key="index" :value="room">
-                {{ room.id }}
+                {{ room.name }}
               </option>
             </select>
           </div>
@@ -120,12 +154,12 @@
                 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500
                 sm:text-sm
               "
-              @change="onChange($event)"
+              v-model="bedId"
             >
               <option
                 v-for="(bed, index) in selectedRoom.beds"
                 :key="index"
-                :value="bed"
+                :value="bed.id"
               >
                 {{ bed.id }}
               </option>
@@ -186,6 +220,7 @@
         <!-- save -->
         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
           <button
+            @click.prevent="savepatient"
             type="button"
             class="
               inline-flex
@@ -219,6 +254,9 @@ import { computed, ref } from "@vue/runtime-core";
 import { useCareCenterStore } from "../../stores/careCenter";
 import { useRoomStore } from "../../stores/room";
 import LoadingModal from "../../components/LoadingModal.vue";
+import { usePatientStore } from "../../stores/patient";
+import { usePhysicianStore } from "../../stores/physician";
+import Physician from "../../types/physician";
 
 type Patient = {
   first_name: string;
@@ -236,13 +274,31 @@ type Bed = {
   room_id: number;
 };
 
-let patient = ref({} as Patient);
-let selectedRoom = ref({} as SelectedRoom);
+type physician = {
+  id: number;
+  last_name: string;
+  first_name: string;
+};
 
-function onChange(event: any) {}
+let patient = ref({} as Patient);
+let physician = ref({} as Physician);
+let selectedRoom = ref({} as SelectedRoom);
+let bedId = ref(0 as number);
 
 const roomStore = useRoomStore();
 const careCenterStore = useCareCenterStore();
+const patientStore = usePatientStore();
+const physicianStore = usePhysicianStore();
+
+function savepatient() {
+  patientStore.savePatient({
+    first_name: patient.value.first_name,
+    last_name: patient.value.last_name,
+    physician_id: physician.value.id,
+    room_id: selectedRoom.value.id,
+    bed_id: bedId.value,
+  });
+}
 
 const filteredCareCenters = computed(() =>
   careCenterStore.getCareCenter.filter(
@@ -251,9 +307,11 @@ const filteredCareCenters = computed(() =>
 );
 
 const rooms = computed(() => roomStore.getRoom);
+const physicians = computed(() => physicianStore.getPhysician);
 
 roomStore.fetchRoom();
 careCenterStore.fetchCareCenter();
+physicianStore.fetchPhysician();
 </script>
 
 <style scoped>
