@@ -24,18 +24,33 @@ export const useUserStore = defineStore({
         };
     },
     actions: {
-        async login(data: object) {
+        async register(data: object) {
             this.loading = true;
-            await axiosClient
-                .post("/login", data)
-                .then(res => {
+            try {
+                return await axiosClient.post("/register", data).then(res => {
                     this.user = res.data;
                     sessionStorage.setItem("TOKEN", this.user.token);
-                    this.loading = false;
-                })
-                .catch(err => {
-                    this.loading = false;
+                    return res;
                 });
+            } catch (err) {
+                return err;
+            } finally {
+                this.loading = false;
+            }
+        },
+        async login(data: object) {
+            this.loading = true;
+            try {
+                return await axiosClient.post("/login", data).then(res => {
+                    this.user = res.data;
+                    sessionStorage.setItem("TOKEN", this.user.token);
+                    return res;
+                });
+            } catch (err) {
+                return err;
+            } finally {
+                this.loading = false;
+            }
         },
         async logout() {
             await axiosClient.post("/logout").then(() => {

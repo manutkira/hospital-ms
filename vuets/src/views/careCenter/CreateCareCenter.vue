@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1 class="text-left text-4xl mb-5 font-bold">Create Care Center</h1>
-    <pre>{{ loading }}</pre>
     <LoadingModal v-if="loading">
       <h2 class="text-xl font-bold py-4">Please wait!</h2>
       <p class="text-sm text-gray-500 px-8">Creating New Care Center...</p>
@@ -102,6 +101,15 @@
             />
           </div>
           <!-- work hours -->
+          <div
+            class="text-red-500 text-left"
+            v-for="(field, index) in Object.keys(errors)"
+            :key="index"
+          >
+            <div v-for="(error, index) in errors[field] || []" :key="index">
+              * {{ error }}
+            </div>
+          </div>
         </div>
         <!-- save -->
         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
@@ -160,24 +168,22 @@ const careCenterStore = useCareCenterStore();
 const router = useRouter();
 
 let careCenter = ref({} as careCenter);
+let errors = ref({} as any);
 
 let employees = computed(() => employeeStore.getEmployee);
 const loading = computed(() => careCenterStore.getLoading);
-
-watch(
-  () => employeeStore.getEmployee,
-  (newVal, old) => {
-    careCenter.value.employee_id = newVal[0].id;
-  }
-);
 
 function onChange(event: any) {
   careCenter.value.employee_id = event.target.value;
 }
 
 function saveCareCenter() {
-  careCenterStore.saveCareCenter(careCenter.value).then(() => {
-    router.push({ name: "CareCenterTableVue" });
+  careCenterStore.saveCareCenter(careCenter.value).then((res: any) => {
+    if (res.status === 201) {
+      router.push({ name: "CareCenterTableVue" });
+    } else {
+      errors.value = res.response.data.errors;
+    }
   });
 }
 

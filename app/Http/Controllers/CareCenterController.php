@@ -13,7 +13,11 @@ class CareCenterController extends Controller
     }
 
    public function store(Request $request){
-    $careCenter = $request->all();
+    $careCenter = $request->validate([
+        'cc_name'=> 'required',
+        'employee_id'=> 'required',
+        'hour_per_week'=> 'required'
+    ]);
 
     return CareCenter::create($careCenter);
    }

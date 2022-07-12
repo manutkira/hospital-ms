@@ -11,6 +11,18 @@
           <input type="password" name="" required v-model="user.password" />
           <label>Password</label>
         </div>
+        <div
+          class="text-red-500 text-left"
+          v-for="(field, index) in Object.keys(errors)"
+          :key="index"
+        >
+          <div v-for="(error, index) in errors[field] || []" :key="index">
+            * {{ error }}
+          </div>
+        </div>
+        <router-link class="text-xs" :to="{ name: 'Register' }">
+          <h1 class="text-blue-500 capitalize">Don't have an account?</h1>
+        </router-link>
         <a href="#" @click.prevent="login">
           <span></span>
           <span></span>
@@ -63,14 +75,20 @@ type User = {
 };
 
 let user = ref({} as User);
+let errors = ref({} as any);
 
 const userStore = useUserStore();
 const router = useRouter();
+
 const loading = computed(() => userStore.getLoading);
 
 function login() {
-  userStore.login(user.value).then(() => {
-    router.push({ name: "EmployeeTableVue" });
+  userStore.login(user.value).then((res: any) => {
+    if (res.status === 200) {
+      router.push({ name: "EmployeeTableVue" });
+    } else {
+      errors.value = res.response.data.errors;
+    }
   });
 }
 </script>

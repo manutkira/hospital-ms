@@ -68,6 +68,16 @@
             />
           </div>
           <!-- lastname -->
+
+          <div
+            class="text-red-500 text-left"
+            v-for="(field, index) in Object.keys(errors)"
+            :key="index"
+          >
+            <div v-for="(error, index) in errors[field] || []" :key="index">
+              * {{ error }}
+            </div>
+          </div>
         </div>
         <!-- save -->
         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
@@ -117,12 +127,19 @@ const employeeStore = useEmployeeStore();
 const router = useRouter();
 
 let employee = ref({} as Employee);
+let errors = ref({} as any);
 
 const loading = computed(() => employeeStore.getLoading);
 
 function saveEmployee() {
-  employeeStore.saveEmployee(employee.value).then(() => {
-    router.push({ name: "EmployeeTableVue" });
+  employeeStore.saveEmployee(employee.value).then((res: any) => {
+    if (res.status === 200) {
+      router.push({ name: "EmployeeTableVue" });
+    } else {
+      console.log(res);
+
+      errors.value = res.response.data.errors;
+    }
   });
 }
 </script>

@@ -19,15 +19,17 @@ export const useCareCenterStore = defineStore({
         },
         async saveCareCenter(data: object) {
             this.loading = true;
-            await axiosClient
-                .post("/care-center", data)
-                .then(res => {
-                    this.loading = false;
-                    return res;
-                })
-                .catch(err => {
-                    this.loading = false;
-                });
+            try {
+                return await axiosClient
+                    .post("/care-center", data)
+                    .then(res => {
+                        return res;
+                    });
+            } catch (err) {
+                return err;
+            } finally {
+                this.loading = false;
+            }
         }
     },
     getters: {

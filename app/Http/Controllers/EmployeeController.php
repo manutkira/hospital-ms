@@ -12,7 +12,10 @@ class EmployeeController extends Controller
     }
 
     public function store(Request $request){
-        $employee = $request->all();
+        $employee = $request->validate([
+            'first_name'=> 'required' ,
+            'last_name'=> 'required' 
+        ]);
 
         return Employee::create($employee);
     }

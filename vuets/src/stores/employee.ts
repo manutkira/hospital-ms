@@ -21,10 +21,15 @@ export const useEmployeeStore = defineStore({
         },
        async saveEmployee(data: object){
             this.loading = true;
-            await  axiosClient.post('/employee', data).then(res => {
+            try{
+                return await  axiosClient.post('/employee', data).then(res => {
+                    return res;
+                });
+            }catch(err){
+                return err;
+            }finally{
                 this.loading = false;
-                return res;
-            })
+            }
         }
     },
     getters: {
