@@ -19,6 +19,19 @@ export const useEmployeeStore = defineStore({
                 this.employees = res.data;
             });
         },
+        fetchOneEmployee(employeeId:string){
+            axiosClient.get(`employee/${employeeId}`).then(res=>{
+                this.employees = res.data;
+            })
+        },
+        updateEmplyoee(data: any){
+            this.loading = true;
+            axiosClient.put(`/employee/${data.id}`, data).then(res=> {
+                this.employees = res.data; 
+                this.loading = false;
+                return  res;
+            })
+        },
        async saveEmployee(data: object){
             this.loading = true;
             try{

@@ -15,6 +15,21 @@ class RoomController extends Controller
         }])->get();
     }
 
+    public function show(Room $room){
+        return $room->whereId($room->id)->with(['beds','careCenters'=> function($data){
+            return $data->with('employees')->get();
+        }])->get();
+    }
+
+    public function update(Request $request, Room $room){
+        $data= $request->all();
+
+        $room->update($data);
+        return $room->whereId($room->id)->with(['beds','careCenters'=> function($data){
+            return $data->with('employees')->get();
+        }])->get();
+    }
+
     public function store(Request $request){
         $careCenter = CareCenter::find($request->care_center_id);
 

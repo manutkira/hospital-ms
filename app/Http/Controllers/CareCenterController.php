@@ -12,6 +12,16 @@ class CareCenterController extends Controller
         return CareCenter::with('employees')->get();
     }
 
+    public function update(Request $request, CareCenter $careCenter){
+        $data = $request->validate([
+            'cc_name'=> 'string',
+            'hours_per_week'=> 'string',
+        ]);
+
+        $careCenter->update($data);
+        return $careCenter;
+    }
+
    public function store(Request $request){
     $careCenter = $request->validate([
         'cc_name'=> 'required',

@@ -11,6 +11,7 @@
             <th>Employee</th>
             <th>Num of Bed</th>
             <th>Bed</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -35,6 +36,19 @@
                   <span class="uppercase font-bold">({{ bed.bed_type }})</span>
                 </dd>
               </dl>
+            </td>
+            <td>
+              <div class="flex">
+                <router-link
+                  :to="{
+                    name: 'UpdateRoomVue',
+                    params: { id: room.id },
+                  }"
+                >
+                  <button class="btn btn-primary px-2 mr-2">Edit</button>
+                </router-link>
+                <button class="btn btn-error px-2">Delete</button>
+              </div>
             </td>
           </tr>
         </tbody>

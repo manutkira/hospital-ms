@@ -8,6 +8,7 @@
           <th>Lastname</th>
           <th>Care Center</th>
           <th>Work Hour</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -27,6 +28,19 @@
                 ? "Not Assigned"
                 : employee.care_centers.hours_per_week + "h/week"
             }}
+          </td>
+          <td>
+            <div class="flex">
+              <router-link
+                :to="{
+                  name: 'UpadateEmployeeVue',
+                  params: { id: employee.id },
+                }"
+              >
+                <button class="btn btn-primary px-2 mr-2">Edit</button>
+              </router-link>
+              <button class="btn btn-error px-2">Delete</button>
+            </div>
           </td>
         </tr>
       </tbody>

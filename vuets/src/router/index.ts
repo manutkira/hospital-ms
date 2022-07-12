@@ -21,6 +21,8 @@ import CreateTreatVue from "../views/treatment/CreateTreat.vue";
 import LoginVue from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import { useUserStore } from "../stores/user";
+import UpadateEmployeeVue from "../views/employee/UpadateEmployee.vue";
+import UpdateRoomVue from "../views/roomBed/UpdateRoom.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +43,11 @@ const router = createRouter({
                     name: "CreateEmployeeVue"
                 },
                 {
+                    path: "/employee-update/:id",
+                    component: UpadateEmployeeVue,
+                    name: "UpadateEmployeeVue"
+                },
+                {
                     path: "/care-center",
                     component: CareCenterTableVue,
                     name: "CareCenterTableVue"
@@ -59,6 +66,11 @@ const router = createRouter({
                     path: "/room-create",
                     component: CreateRoomBedVue,
                     name: "CreateRoomBedVue"
+                },
+                {
+                    path: "/room-update/:id",
+                    component: UpdateRoomVue,
+                    name: "UpdateRoomVue"
                 },
                 {
                     path: "/physician",

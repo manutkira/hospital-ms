@@ -17,6 +17,14 @@ export const useCareCenterStore = defineStore({
                 this.careCenter = res.data;
             });
         },
+        updateCareCenter(data: any) {
+            this.loading = true;
+            axiosClient.put(`/care-center/${data.id}`, data).then(res => {
+                this.careCenter = res.data;
+                this.loading = false;
+                return res;
+            });
+        },
         async saveCareCenter(data: object) {
             this.loading = true;
             try {

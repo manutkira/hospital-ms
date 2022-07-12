@@ -17,6 +17,12 @@ export const useRoomStore = defineStore({
                 this.room = res.data;
             });
         },
+        fetchOneRoom(roomID: string) {
+            axiosClient.get(`/room/${roomID}`).then(res => {
+                this.room = res.data;
+                return res;
+            });
+        },
         async saveRoom(data: object) {
             this.loading = true;
             await axiosClient

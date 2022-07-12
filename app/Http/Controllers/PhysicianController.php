@@ -11,6 +11,17 @@ class PhysicianController extends Controller
         return Physician::with('patients')->get();
     }
 
+    public function update(Request $request , Physician $physician){
+        
+        $data = $request->validate([
+            'first_name'=> 'string',
+            'last_name'=> 'string',
+        ]);
+
+        $physician->update($data);
+        return $physician;
+    }
+
     public function store(Request $request){
         $physician = $request->all();
 
