@@ -14,6 +14,23 @@ class BedController extends Controller
         }])->get();
     }
 
+    public function show(Bed $bed){
+        return Bed::whereId($bed->id)->first();
+    }
+
+    public function update(Request $request, Bed $bed){
+        $data = $request->all();
+
+        $bed->update($data);
+
+        return $bed;
+    }
+
+    public function destroy(Bed $bed){
+        $bed->delete();
+        return response('Delete successfully', 204);
+    }
+
     public function store(Request $request){
         $bed = $request->all();
 
