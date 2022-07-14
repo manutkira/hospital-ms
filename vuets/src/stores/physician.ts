@@ -17,6 +17,20 @@ export const usePhysicianStore = defineStore({
                 this.physician = res.data;
             });
         },
+        fetchOnePhysician(physicianId: string) {
+            axiosClient.get(`/physician/${physicianId}`).then(res => {
+                this.physician = res.data;
+                return res;
+            });
+        },
+        updatePhysician(data: any) {
+            this.loading = true;
+            axiosClient.put(`/physician/${data.id}`, data).then(res => {
+                this.physician = res.data;
+                this.loading = false;
+                return res;
+            });
+        },
         async savePhysician(data: object) {
             this.loading = true;
             await axiosClient

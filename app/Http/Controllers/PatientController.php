@@ -25,6 +25,16 @@ class PatientController extends Controller
         }])->get();
     }
 
+    public function update(Request $request, Patient $patient){
+        $data = $request->all();
+        $patient->update($data);
+        return Patient::whereId($patient->id)->with(['physicians', 'items','beds' => function($bed){
+            return $bed->with(['rooms' => function($room){
+                return $room->with('careCenters')->get();
+            }])->get();
+        }])->get();
+    }
+
     public function store(Request $request){
         $patient = $request->all();
         

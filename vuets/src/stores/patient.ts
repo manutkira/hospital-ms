@@ -24,6 +24,14 @@ export const usePatientStore = defineStore({
                 this.patient = res.data;
             });
         },
+        updatePatient(data: any) {
+            this.loading = true;
+            axiosClient.put(`/patient/${data.id}`, data).then(res => {
+                this.patient = res.data;
+                this.loading = false;
+                return res;
+            });
+        },
         async savePatient(data: object) {
             this.loading = true;
             await axiosClient

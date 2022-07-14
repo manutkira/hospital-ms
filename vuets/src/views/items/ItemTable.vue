@@ -7,6 +7,7 @@
           <th>Item Name/Type</th>
           <th>Unit Cost</th>
           <th>Description</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -14,6 +15,19 @@
           <td class="uppercase font-bold">{{ item.item_type }}</td>
           <td class="uppercase font-bold">${{ item.unit_cost }}</td>
           <td>{{ item.description }}</td>
+          <td>
+            <div class="flex">
+              <router-link
+                :to="{
+                  name: 'UpdateItemVue',
+                  params: { id: item.id },
+                }"
+              >
+                <button class="btn btn-primary px-2 mr-2">Edit</button>
+              </router-link>
+              <button class="btn btn-error px-2">Delete</button>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>

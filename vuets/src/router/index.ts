@@ -23,6 +23,8 @@ import Register from "../views/Register.vue";
 import { useUserStore } from "../stores/user";
 import UpadateEmployeeVue from "../views/employee/UpadateEmployee.vue";
 import UpdateRoomVue from "../views/roomBed/UpdateRoom.vue";
+import UpdatePhysicianVue from "../views/physicians/UpdatePhysician.vue";
+import UpdateItemVue from "../views/items/UpdateItem.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -83,6 +85,11 @@ const router = createRouter({
                     name: "CreatePhysicianVue"
                 },
                 {
+                    path: "/physician-update/:id",
+                    component: UpdatePhysicianVue,
+                    name: "UpdatePhysicianVue"
+                },
+                {
                     path: "/item",
                     component: ItemTableVue,
                     name: "ItemTableVue"
@@ -91,6 +98,11 @@ const router = createRouter({
                     path: "/item-create",
                     component: CreateItemVue,
                     name: "CreateItemVue"
+                },
+                {
+                    path: "/item-update/:id",
+                    component: UpdateItemVue,
+                    name: "UpdateItemVue"
                 },
                 {
                     path: "/patient",

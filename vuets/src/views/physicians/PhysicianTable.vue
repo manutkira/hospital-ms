@@ -7,6 +7,7 @@
           <th>Firstname</th>
           <th>Lastname</th>
           <th>Patient</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -44,6 +45,19 @@
             </div>
           </td>
           <td v-else class="uppercase font-bold text-red-400">No patient</td>
+          <td>
+            <div class="flex">
+              <router-link
+                :to="{
+                  name: 'UpdatePhysicianVue',
+                  params: { id: physician.id },
+                }"
+              >
+                <button class="btn btn-primary px-2 mr-2">Edit</button>
+              </router-link>
+              <button class="btn btn-error px-2">Delete</button>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>

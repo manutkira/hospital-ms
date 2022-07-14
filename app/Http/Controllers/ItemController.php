@@ -11,6 +11,18 @@ class ItemController extends Controller
         return Item::all();
     }
 
+    public function update(Request $request , Item $item){
+
+        $data = $request->all();
+        $item->update($data);
+
+        return Item::whereId($item->id)->get();
+    }
+
+    public function show(Item $item){
+        return Item::whereId($item->id)->get();
+    }
+
     public function store(Request $request){
         $item = $request->all();
 

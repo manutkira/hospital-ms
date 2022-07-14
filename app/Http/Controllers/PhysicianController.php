@@ -11,6 +11,10 @@ class PhysicianController extends Controller
         return Physician::with('patients')->get();
     }
 
+    public function show(Physician $physician){
+        return Physician::whereId($physician->id)->with('patients')->get();
+    }
+
     public function update(Request $request , Physician $physician){
         
         $data = $request->validate([
@@ -19,7 +23,7 @@ class PhysicianController extends Controller
         ]);
 
         $physician->update($data);
-        return $physician;
+        return Physician::whereId($physician->id)->with('patients')->get();
     }
 
     public function store(Request $request){

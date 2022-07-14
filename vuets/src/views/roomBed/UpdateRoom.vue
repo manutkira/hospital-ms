@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-left text-4xl mb-5 font-bold">Create New Employee</h1>
+    <h1 class="text-left text-4xl mb-5 font-bold">Update Room</h1>
 
     <loading-modal-vue v-if="loading">
       <h2 class="text-xl font-bold py-4">Please wait!</h2>
@@ -102,7 +102,7 @@
           </div>
           <!-- care center name -->
 
-          <!-- work hour per week -->
+          <!-- beds -->
           <div v-if="bed.length > 0">
             <label
               for="price"
@@ -211,7 +211,7 @@
               </div>
             </div>
           </div>
-          <!-- work hour per week -->
+          <!-- beds -->
         </div>
         <!-- save -->
         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">

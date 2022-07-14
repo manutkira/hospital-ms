@@ -17,6 +17,20 @@ export const useItemStore = defineStore({
                 this.item = res.data;
             });
         },
+        fetchOneItem(itemId: string) {
+            axiosClient.get(`/item/${itemId}`).then(res => {
+                this.item = res.data;
+                return res;
+            });
+        },
+        updateItem(data: Item) {
+            this.loading = true;
+            axiosClient.put(`/item/${data.id}`, data).then(res => {
+                this.item = res.data;
+                this.loading = false;
+                return res;
+            });
+        },
         async saveItem(data: object) {
             this.loading = true;
             await axiosClient
