@@ -25,6 +25,7 @@ import UpadateEmployeeVue from "../views/employee/UpadateEmployee.vue";
 import UpdateRoomVue from "../views/roomBed/UpdateRoom.vue";
 import UpdatePhysicianVue from "../views/physicians/UpdatePhysician.vue";
 import UpdateItemVue from "../views/items/UpdateItem.vue";
+import UpdatePatientVue from "../views/patients/UpdatePatient.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -113,6 +114,11 @@ const router = createRouter({
                     path: "/patient-create",
                     component: CreatePatientVue,
                     name: "CreatePatientVue"
+                },
+                {
+                    path: "/patient-update/:id",
+                    component: UpdatePatientVue,
+                    name: "UpdatePatientVue"
                 },
                 {
                     path: "/patient-detail/:id",

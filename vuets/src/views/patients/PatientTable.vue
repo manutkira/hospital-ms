@@ -10,6 +10,7 @@
           <th>Bed type (ID)</th>
           <th>Room ID</th>
           <th>Care Center</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -25,6 +26,19 @@
           <td class="uppercase font-bold">{{ patient.beds.room_id }}</td>
           <td class="uppercase font-bold">
             {{ patient.beds.rooms.care_centers.cc_name }}
+          </td>
+          <td>
+            <div class="flex">
+              <router-link
+                :to="{
+                  name: 'UpdatePatientVue',
+                  params: { id: patient.id },
+                }"
+              >
+                <button class="btn btn-primary px-2 mr-2">Edit</button>
+              </router-link>
+              <button class="btn btn-error px-2">Delete</button>
+            </div>
           </td>
         </tr>
       </tbody>
